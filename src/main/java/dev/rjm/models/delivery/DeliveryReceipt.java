@@ -54,7 +54,7 @@ public class DeliveryReceipt extends FXModel {
         DRIDProperty().set(DRID);
     }
 
-    //DRNum
+    // DRNum
     public FXStringProperty DRNumProperty() {
         return DRNum;
     }
@@ -68,29 +68,94 @@ public class DeliveryReceipt extends FXModel {
     }
 
     // supplierId
-    public FXObjectProperty<Supplier> supplierProperty(){
+    public FXObjectProperty<Supplier> supplierProperty() {
         return supplierId;
     }
-    public Supplier getSupplierId(){
+
+    public Supplier getSupplierId() {
         return supplierProperty().get();
     }
-    public void setSupplierId(Supplier supplierId){
+
+    public void setSupplierId(Supplier supplierId) {
         supplierProperty().set(supplierId);
     }
 
-    //
-    
+    // datedel
+    public FXIntegerProperty datedelProperty() {
+        return datedel;
+    }
+
+    public Integer getDatedel() {
+        return datedelProperty().get();
+    }
+
+    public void setDatedel(Integer datedel) {
+        datedelProperty().set(datedel);
+    }
+
+    // totalamt
+    public FXDoubleProperty totalamtProperty() {
+        return totalamt;
+    }
+
+    public Double getTotalamt() {
+        return totalamtProperty().get();
+    }
+
+    public void setTotalamt(Double totalamt) {
+        totalamtProperty().set(totalamt);
+    }
+
+    // paidamt
+    public FXDoubleProperty paidamtProperty() {
+        return paidamt;
+    }
+
+    public Double getPaidamt() {
+        return paidamtProperty().get();
+    }
+
+    public void setPaidamt(Double paidamt) {
+        paidamtProperty().set(paidamt);
+    }
+
+    // userid
+    public FXIntegerProperty useridProperty() {
+        return userid;
+    }
+
+    public Integer getUserid() {
+        return useridProperty().get();
+    }
+
+    public void setUserid(Integer userid) {
+        useridProperty().set(userid);
+    }
 
     @Override
     public FXModel clone() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'clone'");
+       return new DeliveryReceipt(getDRID(),
+                getDRNum(),
+                getSupplierId(),
+                getDatedel(),
+                getTotalamt(),
+                getPaidamt(),
+                getUserid());
+
+        
     }
 
     @Override
     public void copy(FXModel arg0) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'copy'");
+       DeliveryReceipt c = (DeliveryReceipt) arg0;
+
+       setDRID(c.getDRID());
+       setDRNum(c.getDRNum());
+       setSupplierId(c.getSupplierId());
+       setDatedel(c.getDatedel());
+       setTotalamt(c.getTotalamt());
+       setPaidamt(c.getPaidamt());
+       setUserid(c.getUserid());
     }
 
 }

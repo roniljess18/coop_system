@@ -39,7 +39,7 @@ public class MemberDAO {
             long stockpaid = crs.getLong("StockPaid");
             long AmountPaid = crs.getLong("AmountPaid");
 
-             CivilStatus civil_status = CivilStatus.values()[crs.getInt("Status")];
+            CivilStatus civil_status = CivilStatus.values()[crs.getInt("Status")];
 
             return new Member(memberID,
                     Lname,
@@ -74,7 +74,7 @@ public class MemberDAO {
         paramlist.add(new DBParam(Types.VARCHAR, "Mname", member.getMname()));
         paramlist.add(new DBParam(Types.VARCHAR, "DateofBirth", member.getBirthDate()));
         paramlist.add(new DBParam(Types.VARCHAR, "PlaceofBirth", member.getBirthPlace()));
-        //paramlist.add(new DBParam(Types.INTEGER, "Status", member.getCivil_Status()));
+        paramlist.add(new DBParam(Types.INTEGER, "Status", member.getCivil_Status()));
         paramlist.add(new DBParam(Types.VARCHAR, "CurrentAddress", member.getHomeAddress()));
         paramlist.add(new DBParam(Types.VARCHAR, "Occupation", member.getOccupation()));
         paramlist.add(new DBParam(Types.INTEGER, "OfficeID", member.getOffice()));

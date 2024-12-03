@@ -134,7 +134,7 @@ public class User extends FXModel {
 
     @Override
     public FXModel clone() {
-      User user = new User(getAddress(), 
+      return new User(getAddress(), 
         getUserName(), 
         getDesignation(), 
         getFname(), 
@@ -143,7 +143,7 @@ public class User extends FXModel {
         getPassword(), 
         getUserSalary());
 
-        return user;
+       
     }
 
     @Override

@@ -58,9 +58,9 @@ public class Supplier extends FXModel {
 
     @Override
     public FXModel clone() {
-       Supplier supplier = new Supplier(getSupplierId(), getSupplierName(), getSupplierAddress());
+      return new Supplier(getSupplierId(), getSupplierName(), getSupplierAddress());
 
-       return supplier;
+       
     }
 
     @Override

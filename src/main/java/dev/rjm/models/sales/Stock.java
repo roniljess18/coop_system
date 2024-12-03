@@ -75,17 +75,17 @@ public class Stock extends FXModel {
     }
 
     // sellingprice
-    public FXDoubleProperty sellingpriceProperty() {
-        return sellingprice;
-    }
+        public FXDoubleProperty sellingpriceProperty() {
+            return sellingprice;
+        }
 
-    public Double getSellingPrice() {
-        return sellingpriceProperty().get();
-    }
+        public Double getSellingPrice() {
+            return sellingpriceProperty().get();
+        }
 
-    public void setSellingPrice(Double sellingprice) {
-        sellingpriceProperty().set(sellingprice);
-    }
+        public void setSellingPrice(Double sellingprice) {
+            sellingpriceProperty().set(sellingprice);
+        }
 
     // unit
     public FXStringProperty unitProperty() {
@@ -115,14 +115,14 @@ public class Stock extends FXModel {
 
     @Override
     public FXModel clone() {
-        Stock stock = new Stock(getStockId(),
+       return new Stock(getStockId(),
                 getDescription(),
                 getUnitPrice(),
                 getSellingPrice(),
                 getUnit(),
                 getCriticalLevel());
 
-        return stock;
+
     }
 
     @Override

@@ -75,12 +75,12 @@ public class Sales_Item extends FXModel {
 
     @Override
     public FXModel clone() {
-        Sales_Item sales_item = new Sales_Item(getSalesID(),
+        return new Sales_Item(getSalesID(),
                 getStockId(),
                 getQuantity(),
                 getAmount());
 
-        return sales_item;
+        
     }
 
     @Override

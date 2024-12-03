@@ -119,14 +119,14 @@ public class Invoice extends FXModel {
 
     @Override
     public FXModel clone() {
-        Invoice invoice = new Invoice(getSalesId(),
+        return new Invoice(getSalesId(),
                 getInvoice_num(),
                 getTotalAmount(),
                 getMemberId(),
                 getUserId(),
                 getDate());
 
-        return invoice;
+        
     }
 
     @Override

@@ -5,6 +5,7 @@ import dev.rjm.data.MemberDAO;
 import dev.rjm.models.enums.CivilStatus;
 import dev.rjm.models.hr.Member;
 import dev.sol.core.application.FXController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
 
 public class RootController extends FXController {
 
@@ -114,21 +116,7 @@ public class RootController extends FXController {
 
    
 
-    @Override
-    protected void load_bindings() {
-        scene = (Scene) getParameter("SCENE");
-        member_masterlist = App.COLLECTIONS_REGISTER.getList("MEMBER");
-        // memberFilteredList = new FilteredList<>(member_masterlist, p -> true);
-
-        memberIdColumn.setCellValueFactory(cell -> cell.getValue().memberIDProperty().asString());
-        lnameColumn.setCellValueFactory(cell -> cell.getValue().lnameProperty());
-        fnameColumn.setCellValueFactory(cell -> cell.getValue().fnameProperty());
-        amountpaidColumn.setCellValueFactory(cell -> cell.getValue().amountPaidProperty().asObject());
-
-        
-
-        memberTable.setItems(member_masterlist);
-    }
+   
 
     @Override
     protected void load_fields() {
@@ -136,8 +124,30 @@ public class RootController extends FXController {
 
     }
 
+     @Override
+    protected void load_bindings() {
+        scene = (Scene) getParameter("SCENE");
+        member_masterlist = App.COLLECTIONS_REGISTER.getList("MEMBER");
+        memberFilteredList = new FilteredList<>(member_masterlist, p -> true);
+
+        memberIdColumn.setCellValueFactory(cell -> cell.getValue().memberIDProperty().asString());
+        lnameColumn.setCellValueFactory(cell -> cell.getValue().lnameProperty());
+        fnameColumn.setCellValueFactory(cell -> cell.getValue().fnameProperty());
+        amountpaidColumn.setCellValueFactory(cell -> cell.getValue().amountPaidProperty().asObject());
+
+        ObservableList<CivilStatus> joblist = FXCollections.observableArrayList(CivilStatus.values());
+        if (member_masterlist.stream().anyMatch(e -> e.getCivil_Status().equals(CivilStatus.SINGLE))) {
+            civilstatus.setItems(FXCollections.observableArrayList(joblist.subList(0, joblist.size())));
+        } else
+            civilstatus.setItems(joblist);
+        
+
+        memberTable.setItems(member_masterlist);
+    }
+
     @Override
     protected void load_listeners() {
+        reset_combobox();
         memberTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             selectedmember = newValue;
             _bind_labelProperties();
@@ -152,7 +162,7 @@ public class RootController extends FXController {
             middlename.textProperty().bind(selectedmember.mnameProperty());
             birthdate.textProperty().bind(selectedmember.birthDateProperty());
             birthplace.textProperty().bind(selectedmember.birthplaceProperty());
-            // civilstatus.valueProperty().bind(selectedmember.civil_statusProperty());
+            civilstatus.valueProperty().bind(selectedmember.civil_statusProperty());
             homeaddress.textProperty().bind(selectedmember.homeAddressProperty());
             occupation.textProperty().bind(selectedmember.occupationProperty());
             // officeid.valueProperty().bind(selectedmember.officeProperty());
@@ -169,6 +179,10 @@ public class RootController extends FXController {
             
         }
 
+    }
+    private void reset_combobox(){
+        
+        civilstatus.getSelectionModel().selectFirst();
     }
 
 }
