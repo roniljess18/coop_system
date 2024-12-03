@@ -1,7 +1,7 @@
 package dev.rjm;
 
 import dev.rjm.app.RootLoader;
-import dev.rjm.data.MemberDOA;
+import dev.rjm.data.MemberDAO;
 import dev.sol.core.application.FXApplication;
 import dev.sol.core.application.loader.FXLoaderFactory;
 import dev.sol.core.registry.FXCollectionsRegister;
@@ -33,7 +33,7 @@ public class App extends FXApplication {
        _initialize_application();
     }
     private void _initialize_dataset(){
-        COLLECTIONS_REGISTER.register("MEMBER", FXCollections.observableArrayList(MemberDOA.getMemberList()));
+        COLLECTIONS_REGISTER.register("MEMBER", FXCollections.observableArrayList(MemberDAO.getMemberList()));
     }
     private void _initialize_application() {
         RootLoader rootLoader = (RootLoader) FXLoaderFactory.createInstance(

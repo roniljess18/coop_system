@@ -1,10 +1,13 @@
-package dev.rjm.models;
+package dev.rjm.models.hr;
 
+import dev.rjm.models.enums.CivilStatus;
 import dev.sol.core.application.FXModel;
 import dev.sol.core.properties.beans.FXDoubleProperty;
 import dev.sol.core.properties.beans.FXIntegerProperty;
 import dev.sol.core.properties.beans.FXLongProperty;
+import dev.sol.core.properties.beans.FXObjectProperty;
 import dev.sol.core.properties.beans.FXStringProperty;
+import javafx.beans.value.ObservableValue;
 
 public class Member extends FXModel {
 
@@ -14,7 +17,7 @@ public class Member extends FXModel {
     private FXStringProperty Mname;
     private FXStringProperty birthDate;
     private FXStringProperty birthplace;
-    private FXStringProperty civil_status;
+    private FXObjectProperty<CivilStatus> civil_status;
     private FXStringProperty homeAddress;
     private FXStringProperty occupation;
     private FXIntegerProperty office;
@@ -34,7 +37,7 @@ public class Member extends FXModel {
             String Mname,
             String birthDate,
             String birthplace,
-            String civil_status,
+            CivilStatus civil_status,
             String homeAddress,
             String occupation,
             Integer office,
@@ -53,7 +56,7 @@ public class Member extends FXModel {
         this.Mname = new FXStringProperty(Mname);
         this.birthDate = new FXStringProperty(birthDate);
         this.birthplace = new FXStringProperty(birthplace);
-        this.civil_status = new FXStringProperty(civil_status);
+        this.civil_status = new FXObjectProperty<>(civil_status);
         this.homeAddress = new FXStringProperty(homeAddress);
         this.occupation = new FXStringProperty(occupation);
         this.office = new FXIntegerProperty(office);
@@ -167,15 +170,15 @@ public class Member extends FXModel {
     }
 
     // civil_status
-    public FXStringProperty civil_statusProperty() {
+    public FXObjectProperty<CivilStatus> civil_statusProperty() {
         return civil_status;
     }
 
-    public String getCivil_Status() {
+    public CivilStatus getCivil_Status() {
         return civil_statusProperty().get();
     }
 
-    public void setCivil_Status(String civil_status) {
+    public void setCivil_Status(CivilStatus civil_status) {
         civil_statusProperty().set(civil_status);
     }
 

@@ -8,23 +8,24 @@ import java.util.List;
 import javax.sql.rowset.CachedRowSet;
 
 import dev.rjm.App;
-import dev.rjm.models.Member;
+import dev.rjm.models.enums.CivilStatus;
+import dev.rjm.models.hr.Member;
 import dev.sol.db.DBParam;
 import dev.sol.db.DBService;
 
-public class MemberDOA {
+public class MemberDAO {
     public static String TABLE = "member";
     public static final DBService DB = App.DB_COOP;
 
-    private static Member data(CachedRowSet crs){
-        try{
+    private static Member data(CachedRowSet crs) {
+        try {
             Integer memberID = crs.getInt("memberID");
             String Lname = crs.getString("Lname");
             String Fname = crs.getString("Fname");
             String Mname = crs.getString("Mname");
             String birthDate = crs.getString("DateofBirth");
             String birthplace = crs.getString("PlaceofBirth");
-            String civil_status = crs.getString("Status");
+            //CivilStatus civil_status = CivilStatus.valueOf(crs.getString("Status").toUpperCase().trim());
             String homeAddress = crs.getString("CurrentAddress");
             String occupation = crs.getString("Occupation");
             Integer office = crs.getInt("OfficeID");
@@ -38,40 +39,42 @@ public class MemberDOA {
             long stockpaid = crs.getLong("StockPaid");
             long AmountPaid = crs.getLong("AmountPaid");
 
-            return new Member(memberID, 
-                Lname, 
-                Fname, 
-                Mname, 
-                birthDate, 
-                birthplace, 
-                civil_status, 
-                homeAddress, 
-                occupation, 
-                office, 
-                salary, 
-                sourceofincome, 
-                relative, 
-                relationship, 
-                dependent, 
-                stockshare, 
-                stockamount, 
-                stockpaid, 
-                AmountPaid);
-        }catch (SQLException e){
+             CivilStatus civil_status = CivilStatus.values()[crs.getInt("Status")];
+
+            return new Member(memberID,
+                    Lname,
+                    Fname,
+                    Mname,
+                    birthDate,
+                    birthplace,
+                    civil_status,
+                    homeAddress,
+                    occupation,
+                    office,
+                    salary,
+                    sourceofincome,
+                    relative,
+                    relationship,
+                    dependent,
+                    stockshare,
+                    stockamount,
+                    stockpaid,
+                    AmountPaid);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static DBParam[] paramlist(Member member){
+    private static DBParam[] paramlist(Member member) {
         List<DBParam> paramlist = new LinkedList<>();
         paramlist.add(new DBParam(Types.INTEGER, "memberID", member.getMemberID()));
         paramlist.add(new DBParam(Types.VARCHAR, "Lname", member.getLname()));
         paramlist.add(new DBParam(Types.VARCHAR, "Fname", member.getFname()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Mname",  member.getMname()));
+        paramlist.add(new DBParam(Types.VARCHAR, "Mname", member.getMname()));
         paramlist.add(new DBParam(Types.VARCHAR, "DateofBirth", member.getBirthDate()));
         paramlist.add(new DBParam(Types.VARCHAR, "PlaceofBirth", member.getBirthPlace()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Status", member.getCivil_Status()));
+        //paramlist.add(new DBParam(Types.INTEGER, "Status", member.getCivil_Status()));
         paramlist.add(new DBParam(Types.VARCHAR, "CurrentAddress", member.getHomeAddress()));
         paramlist.add(new DBParam(Types.VARCHAR, "Occupation", member.getOccupation()));
         paramlist.add(new DBParam(Types.INTEGER, "OfficeID", member.getOffice()));
@@ -84,30 +87,36 @@ public class MemberDOA {
         paramlist.add(new DBParam(Types.DECIMAL, "StockAmount", member.getStockAmount()));
         paramlist.add(new DBParam(Types.INTEGER, "StockPaid", member.getStockPaid()));
         paramlist.add(new DBParam(Types.DECIMAL, "AmountPaid", member.getAmountPaid()));
+       //paramlist.add(new DBParam(Types.INTEGER, "Status", CivilStatus.valueOf(member.getCivil_Status().toUpperCase()).ordinal()));
+
         return paramlist.toArray(new DBParam[0]);
     }
+
     public static List<Member> getMemberList() {
         CachedRowSet crs = DB.select_all(TABLE);
         List<Member> list = new LinkedList<>();
 
-        try{
-            while (crs.next()){
+        try {
+            while (crs.next()) {
                 Member member = data(crs);
-                if(member != null);
+                if (member != null)
+                    ;
                 list.add(member);
             }
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
 
         }
-       
+
         return list;
     }
-    public static void insert(Member member){
+
+    public static void insert(Member member) {
         DB.insert(TABLE, paramlist(member));
     }
-    public static void delete(Member member){
+
+    public static void delete(Member member) {
         DB.delete(TABLE, new DBParam(Types.INTEGER, "memberID", member.getMemberID()));
     }
-    
+
 }

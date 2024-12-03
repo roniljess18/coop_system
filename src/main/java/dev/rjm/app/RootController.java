@@ -1,9 +1,9 @@
 package dev.rjm.app;
 
-
-import dev.rjm.models.Member;
 import dev.rjm.App;
-import dev.rjm.data.MemberDOA;
+import dev.rjm.data.MemberDAO;
+import dev.rjm.models.enums.CivilStatus;
+import dev.rjm.models.hr.Member;
 import dev.sol.core.application.FXController;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,7 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class RootController extends FXController{
+public class RootController extends FXController {
 
     @FXML
     private TableView<Member> memberTable;
@@ -35,7 +35,7 @@ public class RootController extends FXController{
 
     @FXML
     private TextField firstname;
-    
+
     @FXML
     private TextField middlename;
 
@@ -49,7 +49,7 @@ public class RootController extends FXController{
     private TextField birthplace;
 
     @FXML
-    private ComboBox<Member> civilstatus;
+    private ComboBox<CivilStatus> civilstatus;
 
     @FXML
     private TextField homeaddress;
@@ -87,15 +87,13 @@ public class RootController extends FXController{
     @FXML
     private TextField amountpaid;
 
-
-
     @FXML
     private TextField search;
 
     @FXML
-    private void handleDelete(){
+    private void handleDelete() {
         Member selectedMember = memberTable.getSelectionModel().getSelectedItem();
-        if(memberTable.getSelectionModel().getSelectedItem() == null){
+        if (memberTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Member Delete Error");
             alert.setHeaderText("Null Selection Error Occurred");
@@ -105,26 +103,29 @@ public class RootController extends FXController{
             return;
         }
         member_masterlist.remove(selectedMember);
-        MemberDOA.delete(selectedMember);
-        
+        MemberDAO.delete(selectedMember);
+
     }
 
     private Member selectedmember;
     private Scene scene;
     private ObservableList<Member> member_masterlist;
     private FilteredList<Member> memberFilteredList;
-    
+
+   
 
     @Override
     protected void load_bindings() {
         scene = (Scene) getParameter("SCENE");
         member_masterlist = App.COLLECTIONS_REGISTER.getList("MEMBER");
-        memberFilteredList = new FilteredList<>(member_masterlist, p -> true);
+        // memberFilteredList = new FilteredList<>(member_masterlist, p -> true);
 
         memberIdColumn.setCellValueFactory(cell -> cell.getValue().memberIDProperty().asString());
         lnameColumn.setCellValueFactory(cell -> cell.getValue().lnameProperty());
         fnameColumn.setCellValueFactory(cell -> cell.getValue().fnameProperty());
         amountpaidColumn.setCellValueFactory(cell -> cell.getValue().amountPaidProperty().asObject());
+
+        
 
         memberTable.setItems(member_masterlist);
     }
@@ -132,19 +133,18 @@ public class RootController extends FXController{
     @Override
     protected void load_fields() {
         _bind_labelProperties();
-        
+
     }
 
     @Override
     protected void load_listeners() {
         memberTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-           selectedmember = newValue;
+            selectedmember = newValue;
             _bind_labelProperties();
         });
-        
-        
+
     }
-    
+
     private void _bind_labelProperties() {
         if (selectedmember != null) {
             firstname.textProperty().bind(selectedmember.fnameProperty());
@@ -159,17 +159,16 @@ public class RootController extends FXController{
             // salary.textProperty().bind(selectedmember.salaryProperty());
             income.textProperty().bind(selectedmember.sourceofincomeProperty());
             relativefield.textProperty().bind(selectedmember.relativeProperty());
-            //
+            // relationship.textProperty().bind(selectedmember.reletionshipPROPERTY());
             dependents.textProperty().bind(selectedmember.dependentProperty());
-            //stockshare.textProperty().bind(selectedmember.stockshareProperty());
-            //stockamount.textProperty().bind(selectedmember.stockamountProperty());
-            //stockpaid.textProperty().bind(selectedmember.stockpaidProperty());
-            //amountpaid.textProperty().bind(selectedmember.amountPaidProperty());
+            // stockshare.textProperty().bind(selectedmember.stockshareProperty());
+            // stockamount.textProperty().bind(selectedmember.stockamountProperty());
+            // stockpaid.textProperty().bind(selectedmember.stockpaidProperty());
+            // amountpaid.LongProperty().bind(selectedmember.amountPaidProperty());
 
+            
+        }
 
-;               
-        } 
-        
     }
-    
+
 }
