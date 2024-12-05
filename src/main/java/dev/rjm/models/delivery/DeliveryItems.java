@@ -1,7 +1,6 @@
 package dev.rjm.models.delivery;
 
 import dev.rjm.models.sales.Stock;
-import dev.rjm.models.sales.Supplier;
 import dev.sol.core.application.FXModel;
 import dev.sol.core.properties.beans.FXDoubleProperty;
 import dev.sol.core.properties.beans.FXIntegerProperty;

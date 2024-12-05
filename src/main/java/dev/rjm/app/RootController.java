@@ -3,7 +3,9 @@ package dev.rjm.app;
 import dev.rjm.App;
 import dev.rjm.data.MemberDAO;
 import dev.rjm.models.enums.CivilStatus;
+import dev.rjm.models.enums.RelationShip;
 import dev.rjm.models.hr.Member;
+import dev.rjm.models.hr.Office;
 import dev.sol.core.application.FXController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,11 +14,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-
 
 public class RootController extends FXController {
 
@@ -34,6 +37,9 @@ public class RootController extends FXController {
 
     @FXML
     private TableColumn<Member, Long> amountpaidColumn;
+
+    @FXML
+    private TextField idField;
 
     @FXML
     private TextField firstname;
@@ -60,7 +66,7 @@ public class RootController extends FXController {
     private TextField occupation;
 
     @FXML
-    private ComboBox<Member> officeid;
+    private ComboBox<Office> officebox;
 
     @FXML
     private TextField salary;
@@ -113,21 +119,32 @@ public class RootController extends FXController {
     private Scene scene;
     private ObservableList<Member> member_masterlist;
     private FilteredList<Member> memberFilteredList;
+    private FilteredList<Office> office_marterList;
+    private FilteredList<Office> officeList;
 
-   
+    // private static class OFFICE_CELL extends ListCell<Office>{
+    //     @Override
+    //     protected void updateItem(Office office, boolean empty){
+    //         super.updateItem(office, empty);
 
-   
+    //         if(office == null || empty){
+    //             setText(null);
+    //             setGraphic(null);
+
+    //             return;
+    //         }
+
+    //         setGraphic(new Label(office.getOfficeName()));
+    //     }
+        
 
     @Override
     protected void load_fields() {
-        _bind_labelProperties();
-
-    }
-
-     @Override
-    protected void load_bindings() {
+        
         scene = (Scene) getParameter("SCENE");
+        //office_marterList = App.COLLECTIONS_REGISTER.getList("OFFICE");
         member_masterlist = App.COLLECTIONS_REGISTER.getList("MEMBER");
+        
         memberFilteredList = new FilteredList<>(member_masterlist, p -> true);
 
         memberIdColumn.setCellValueFactory(cell -> cell.getValue().memberIDProperty().asString());
@@ -140,9 +157,71 @@ public class RootController extends FXController {
             civilstatus.setItems(FXCollections.observableArrayList(joblist.subList(0, joblist.size())));
         } else
             civilstatus.setItems(joblist);
-        
 
+
+        // ObservableList<RelationShip> relation = FXCollections.observableArrayList(RelationShip.values());
+        // if (member_masterlist.stream().anyMatch(e -> e.getRelationship().equals(RelationShip.MOTHER))) {
+        //     relationfield.setItems(FXCollections.observableArrayList(relation.subList(1, relation.size())));
+        // } else
+        //     relationfield.setItems(relation);
+
+
+        // officebox.setButtonCell(new Office.LIST_CELL());
+        // officebox.setCellFactory(cell -> new Office.LIST_CELL());
+        // officebox.getItems().add(null);
+        // officebox.setItems(office_marterList);
+
+        
         memberTable.setItems(member_masterlist);
+
+        memberTable.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+            if (nv != null) {
+                idField.setText(String.valueOf(nv.getMemberID()));
+                firstname.setText(nv.getFname());
+                middlename.setText(nv.getMname());
+                lastname.setText(nv.getLname());
+                birthdate.setText(nv.getBirthDate());
+                birthplace.setText(nv.getBirthPlace());
+                homeaddress.setText(nv.getHomeAddress());
+                occupation.setText(nv.getOccupation());
+                salary.setText(String.valueOf(nv.getSalary()));
+                relativefield.setText(nv.getRelative());
+                relationfield.setPromptText(nv.getRelationship());
+                income.setText(nv.getSourceOfIncome());
+                dependents.setText(nv.getDependent());
+                stockshare.setText(String.valueOf(nv.getStockshare()));
+                stockpaid.setText(String.valueOf(nv.getStockPaid()));
+                stockamount.setText(String.valueOf(nv.getStockAmount()));
+                amountpaid.setText(String.valueOf(nv.getAmountPaid()));
+                officebox.setPromptText(String.valueOf(nv.getOffice()));
+
+                
+            }else{
+                idField.setText("");
+                firstname.setText("");
+                middlename.setText("");
+                lastname.setText("");
+                birthdate.setText("");
+                birthplace.setText("");
+                homeaddress.setText("");
+                occupation.setText("");
+                salary.setText("");
+                relativefield.setText("");
+                relationfield.setPromptText("");
+                income.setText("");
+                dependents.setText("");
+                stockshare.setText("");
+                stockpaid.setText("");
+                stockamount.setText("");
+                amountpaid.setText("");
+            }
+        });
+
+    }
+
+    @Override
+    protected void load_bindings() {
+        _bind_labelProperties();
     }
 
     @Override
@@ -157,32 +236,20 @@ public class RootController extends FXController {
 
     private void _bind_labelProperties() {
         if (selectedmember != null) {
-            firstname.textProperty().bind(selectedmember.fnameProperty());
-            lastname.textProperty().bind(selectedmember.lnameProperty());
-            middlename.textProperty().bind(selectedmember.mnameProperty());
-            birthdate.textProperty().bind(selectedmember.birthDateProperty());
-            birthplace.textProperty().bind(selectedmember.birthplaceProperty());
-            civilstatus.valueProperty().bind(selectedmember.civil_statusProperty());
-            homeaddress.textProperty().bind(selectedmember.homeAddressProperty());
-            occupation.textProperty().bind(selectedmember.occupationProperty());
-            // officeid.valueProperty().bind(selectedmember.officeProperty());
-            // salary.textProperty().bind(selectedmember.salaryProperty());
-            income.textProperty().bind(selectedmember.sourceofincomeProperty());
-            relativefield.textProperty().bind(selectedmember.relativeProperty());
-            // relationship.textProperty().bind(selectedmember.reletionshipPROPERTY());
-            dependents.textProperty().bind(selectedmember.dependentProperty());
-            // stockshare.textProperty().bind(selectedmember.stockshareProperty());
-            // stockamount.textProperty().bind(selectedmember.stockamountProperty());
-            // stockpaid.textProperty().bind(selectedmember.stockpaidProperty());
-            // amountpaid.LongProperty().bind(selectedmember.amountPaidProperty());
+        
+        civilstatus.valueProperty().bind(selectedmember.civil_statusProperty());
+        //relationfield.valueProperty().bind(selectedmember.relationshipProperty());
 
-            
-        }
+         }
 
     }
-    private void reset_combobox(){
-        
+
+    private void reset_combobox() {
+
         civilstatus.getSelectionModel().selectFirst();
+        //relationfield.getSelectionModel().selectFirst();
+        //officebox.getSelectionModel().selectFirst();
     }
 
 }
+

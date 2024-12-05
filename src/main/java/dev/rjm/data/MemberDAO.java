@@ -1,7 +1,6 @@
 package dev.rjm.data;
 
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,13 +8,19 @@ import javax.sql.rowset.CachedRowSet;
 
 import dev.rjm.App;
 import dev.rjm.models.enums.CivilStatus;
+import dev.rjm.models.enums.RelationShip;
 import dev.rjm.models.hr.Member;
+import dev.rjm.models.hr.Office;
 import dev.sol.db.DBParam;
 import dev.sol.db.DBService;
+import dev.sol.db.DBType;
+import javafx.collections.ObservableList;
 
 public class MemberDAO {
     public static String TABLE = "member";
     public static final DBService DB = App.DB_COOP;
+
+   // private static final ObservableList<Office> officelist = App.COLLECTIONS_REGISTER.getList("OFFICE");
 
     private static Member data(CachedRowSet crs) {
         try {
@@ -25,10 +30,10 @@ public class MemberDAO {
             String Mname = crs.getString("Mname");
             String birthDate = crs.getString("DateofBirth");
             String birthplace = crs.getString("PlaceofBirth");
-            //CivilStatus civil_status = CivilStatus.valueOf(crs.getString("Status").toUpperCase().trim());
+            // CivilStatus.valueOf(crs.getString("Status").toUpperCase().trim());
             String homeAddress = crs.getString("CurrentAddress");
             String occupation = crs.getString("Occupation");
-            Integer office = crs.getInt("OfficeID");
+            //Office office = Office.values(crs.getString("OfficeID"));
             double salary = crs.getDouble("Salary");
             String sourceofincome = crs.getString("SourceofIncome");
             String relative = crs.getString("NearestRelative");
@@ -38,9 +43,17 @@ public class MemberDAO {
             long stockamount = crs.getLong("StockAmount");
             long stockpaid = crs.getLong("StockPaid");
             long AmountPaid = crs.getLong("AmountPaid");
-
+            Integer office = crs.getInt("OfficeID");
             CivilStatus civil_status = CivilStatus.values()[crs.getInt("Status")];
-
+            // Office office = officelist.stream().filter(off -> {
+            //     try {
+            //         return off.getOfficeId().equals(crs.getString("OfficeID"));
+            //     } catch (SQLException e) {
+            //         e.printStackTrace();
+            //     }
+            //     return true;
+            // }).findFirst().get();
+            
             return new Member(memberID,
                     Lname,
                     Fname,
@@ -68,26 +81,27 @@ public class MemberDAO {
 
     private static DBParam[] paramlist(Member member) {
         List<DBParam> paramlist = new LinkedList<>();
-        paramlist.add(new DBParam(Types.INTEGER, "memberID", member.getMemberID()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Lname", member.getLname()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Fname", member.getFname()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Mname", member.getMname()));
-        paramlist.add(new DBParam(Types.VARCHAR, "DateofBirth", member.getBirthDate()));
-        paramlist.add(new DBParam(Types.VARCHAR, "PlaceofBirth", member.getBirthPlace()));
-        paramlist.add(new DBParam(Types.INTEGER, "Status", member.getCivil_Status()));
-        paramlist.add(new DBParam(Types.VARCHAR, "CurrentAddress", member.getHomeAddress()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Occupation", member.getOccupation()));
-        paramlist.add(new DBParam(Types.INTEGER, "OfficeID", member.getOffice()));
-        paramlist.add(new DBParam(Types.DECIMAL, "Salary", member.getSalary()));
-        paramlist.add(new DBParam(Types.VARCHAR, "SourceofIncome", member.getSourceOfIncome()));
-        paramlist.add(new DBParam(Types.VARCHAR, "NearestRelative", member.getRelative()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Relationship", member.getRelationship()));
-        paramlist.add(new DBParam(Types.VARCHAR, "Dependemt", member.getDependent()));
-        paramlist.add(new DBParam(Types.INTEGER, "StockShare", member.getStockshare()));
-        paramlist.add(new DBParam(Types.DECIMAL, "StockAmount", member.getStockAmount()));
-        paramlist.add(new DBParam(Types.INTEGER, "StockPaid", member.getStockPaid()));
-        paramlist.add(new DBParam(Types.DECIMAL, "AmountPaid", member.getAmountPaid()));
-       //paramlist.add(new DBParam(Types.INTEGER, "Status", CivilStatus.valueOf(member.getCivil_Status().toUpperCase()).ordinal()));
+        paramlist.add(new DBParam(DBType.NUMERIC, "memberID", member.getMemberID()));
+        paramlist.add(new DBParam(DBType.TEXT, "Lname", member.getLname()));
+        paramlist.add(new DBParam(DBType.TEXT, "Fname", member.getFname()));
+        paramlist.add(new DBParam(DBType.TEXT, "Mname", member.getMname()));
+        paramlist.add(new DBParam(DBType.TEXT, "DateofBirth", member.getBirthDate()));
+        paramlist.add(new DBParam(DBType.TEXT, "PlaceofBirth", member.getBirthPlace()));
+        paramlist.add(new DBParam(DBType.NUMERIC, "Status", member.getCivil_Status()));
+        paramlist.add(new DBParam(DBType.TEXT, "CurrentAddress", member.getHomeAddress()));
+        paramlist.add(new DBParam(DBType.TEXT, "Occupation", member.getOccupation()));
+        paramlist.add(new DBParam(DBType.TEXT, "OfficeID", member.getOffice()));
+        paramlist.add(new DBParam(DBType.DECIMAL, "Salary", member.getSalary()));
+        paramlist.add(new DBParam(DBType.TEXT, "SourceofIncome", member.getSourceOfIncome()));
+        paramlist.add(new DBParam(DBType.TEXT, "NearestRelative", member.getRelative()));
+        paramlist.add(new DBParam(DBType.TEXT, "Relationship", member.getRelationship()));
+        paramlist.add(new DBParam(DBType.TEXT, "Dependemt", member.getDependent()));
+        paramlist.add(new DBParam(DBType.NUMERIC, "StockShare", member.getStockshare()));
+        paramlist.add(new DBParam(DBType.DECIMAL, "StockAmount", member.getStockAmount()));
+        paramlist.add(new DBParam(DBType.NUMERIC, "StockPaid", member.getStockPaid()));
+        paramlist.add(new DBParam(DBType.DECIMAL, "AmountPaid", member.getAmountPaid()));
+        // paramlist.add(new DBParam(Types.INTEGER, "Status",
+        // CivilStatus.valueOf(member.getCivil_Status().toUpperCase()).ordinal()));
 
         return paramlist.toArray(new DBParam[0]);
     }
@@ -107,7 +121,7 @@ public class MemberDAO {
             e.printStackTrace();
 
         }
-
+        
         return list;
     }
 
@@ -116,7 +130,7 @@ public class MemberDAO {
     }
 
     public static void delete(Member member) {
-        DB.delete(TABLE, new DBParam(Types.INTEGER, "memberID", member.getMemberID()));
+        DB.delete(TABLE, new DBParam(DBType.NUMERIC, "memberID", member.getMemberID()));
     }
 
 }

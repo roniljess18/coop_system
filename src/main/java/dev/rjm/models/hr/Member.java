@@ -1,15 +1,36 @@
 package dev.rjm.models.hr;
 
+
+
 import dev.rjm.models.enums.CivilStatus;
+import dev.rjm.models.enums.RelationShip;
 import dev.sol.core.application.FXModel;
 import dev.sol.core.properties.beans.FXDoubleProperty;
 import dev.sol.core.properties.beans.FXIntegerProperty;
 import dev.sol.core.properties.beans.FXLongProperty;
 import dev.sol.core.properties.beans.FXObjectProperty;
 import dev.sol.core.properties.beans.FXStringProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+
 
 public class Member extends FXModel {
+
+    public static class OFFICE_TABLECELL extends TableCell<Member, Office>{
+         @Override
+        protected void updateItem(Office item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (item == null || empty) {
+                setText(null);
+                setGraphic(null);
+
+                return;
+            }
+
+            setGraphic(new Label(item.getOfficeName()));
+        }
+    }
 
     private FXIntegerProperty memberId;
     private FXStringProperty lname;

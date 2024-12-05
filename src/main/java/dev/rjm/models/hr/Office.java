@@ -2,8 +2,27 @@ package dev.rjm.models.hr;
 
 import dev.sol.core.application.FXModel;
 import dev.sol.core.properties.beans.FXStringProperty;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 
 public class Office extends FXModel {
+
+     public static class LIST_CELL extends ListCell<Office>{
+        @Override
+        protected void updateItem(Office office, boolean empty){
+            super.updateItem(office, empty);
+
+            if(office == null || empty){
+                setText(null);
+                setGraphic(null);
+
+                return;
+            }
+
+            setGraphic(new Label(office.getOfficeName()));
+        }
+        
+    }
 
     private FXStringProperty office_id;
     private FXStringProperty office_name;
@@ -22,7 +41,7 @@ public class Office extends FXModel {
         return officeidProperty().get();
     }
     public void setOfficeId(String office_id){
-        officeidProperty().set(getOfficeId());
+        officeidProperty().set(office_id);
     }
 
     public FXStringProperty officenameProperty(){
@@ -32,7 +51,7 @@ public class Office extends FXModel {
         return officenameProperty().get();
     }
     public void setOfficeName(String office_name){
-        officenameProperty().set(getOfficeName());
+        officenameProperty().set(office_name);
     }
 
     @Override
@@ -47,5 +66,7 @@ public class Office extends FXModel {
         setOfficeId(c.getOfficeId());
         setOfficeName(c.getOfficeName());
     }
+
+    
     
 }

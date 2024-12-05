@@ -4,6 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -29,7 +32,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField />
+                  <TextField fx:id="idField" />
                </children>
             </GridPane>
             <TableView fx:id="memberTable" prefHeight="496.0" prefWidth="402.0">
@@ -160,7 +163,7 @@
                   </VBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <ComboBox prefHeight="25.0" prefWidth="339.0" />
+                        <ComboBox fx:id="officebox" prefHeight="25.0" prefWidth="339.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
@@ -183,7 +186,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label prefHeight="17.0" prefWidth="58.0" text="Salary" />
-                        <TextField prefHeight="25.0" prefWidth="89.0" />
+                        <TextField fx:id="salary" prefHeight="25.0" prefWidth="89.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -202,7 +205,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label prefHeight="17.0" prefWidth="75.0" text="Relation" />
-                        <ComboBox prefHeight="25.0" prefWidth="176.0" />
+                        <ComboBox fx:id="relationfield" prefHeight="25.0" prefWidth="176.0" />
                      </children>
                   </HBox>
                </children>
@@ -215,8 +218,8 @@
             </HBox>
             <GridPane hgap="10.0" prefHeight="62.0" prefWidth="552.0" vgap="10.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="173.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="384.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="203.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="10.0" prefWidth="256.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -226,25 +229,25 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <Label prefHeight="17.0" prefWidth="69.0" text="Stock Share" />
-                        <TextField prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="stockshare" prefHeight="25.0" prefWidth="97.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="331.0" spacing="10.0" GridPane.columnIndex="1">
                      <children>
                         <Label prefHeight="17.0" prefWidth="74.0" text="StockAmoun" />
-                        <TextField />
+                        <TextField fx:id="stockamount" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label prefHeight="17.0" prefWidth="73.0" text="Amount Paid" />
-                        <TextField prefHeight="25.0" prefWidth="150.0" />
+                        <TextField fx:id="amountpaid" prefHeight="25.0" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="1">
                      <children>
                         <Label prefHeight="17.0" prefWidth="68.0" text="Stock Paid" />
-                        <TextField prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="stockpaid" prefHeight="25.0" prefWidth="98.0" />
                      </children>
                   </HBox>
                </children>
@@ -268,4 +271,25 @@
          </children>
       </VBox>
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>
